@@ -21,7 +21,7 @@ class Computation:
 			Series of the MAF for all the SNP in the database
 
 		'''
-		MAF = pd.Series(gen_A.mean(axis=1)/2).rename_axis("MAF")
+		MAF = pd.Series(gen_A.mean(axis=1)/2)
 		MAF = MAF.apply(lambda x: min(x, 1-x))
 		return MAF
 

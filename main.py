@@ -41,7 +41,25 @@ while True:
 
 while True:
 	try:
-		wind = float(input("Enter the size of the window (in Morgans) :"))
+		type_pos = int(input("Which type of units do you want to use for the positionning of the SNPs?:\n [1] Morgans\n [2] base-pair coordinates\n"))
+	except ValueError:
+		print("Your answer is not valid. Please, input 1 or 2 to continue")
+		continue	
+
+	if not(type_pos in [1,2]):
+		print("Your answer is not valid. Please, input 1 or 2 to continue")
+		continue
+	else:
+		break
+
+if type_pos == 1:
+	unit = "in Morgans"
+elif type_pos == 2:
+	unit = "in number of base-pair"
+
+while True:
+	try:
+		wind = float(input("Enter the size of the window (" + unit + ") :"))
 	except ValueError:
 		print("Your answer is not valid. Please, enter a numeric value")
 		continue	
@@ -56,7 +74,7 @@ while True:
 #                                                     Using .tped file
 #-----------------------------------------------------------------------------------------------------------------------
 if type_file == 1:
-	(gen_A, pos, chrom, MAF, sample) = Read_table.read_tped(path, min_maf)
+	(gen_A, pos, chrom, MAF, sample) = Read_table.read_tped(path, min_maf, type_pos)
 	print("data, MAF and filterMAF ok")
 
 #----------------------------------------------------------------------------------------------------------------------
@@ -64,7 +82,7 @@ if type_file == 1:
 #----------------------------------------------------------------------------------------------------------------------
 elif type_file == 2:
 
-	(gen_A, pos, chrom, sample) = Read_table.read_bed(path)
+	(gen_A, pos, chrom, sample) = Read_table.read_bed(path, type_pos)
 	print('data ok')
 
 	MAF = Computation.calc_MAF(gen_A)
@@ -117,7 +135,7 @@ result = Computation.calc_LD_Score(gen_A, resid, pos, wind, MAF)
 print('Results obtained')
 
 #Output the results to a .csv file
-result.to_csv(path_or_buf = path + "_output.csv", header = ["L_aa_orig", "L_ad_orig", "L_aa", "L_ad", "L_aa_new", "L_ad_new", "L_ad_new_adjust", "Nsnp","Nsnp_used", "MAF"], index = True, sep = " ", na_rep = "Nan")
+result.to_csv(path_or_buf = path + "_output.csv", header = ["L_aa_orig", "L_ad_orig", "L_aa", "L_ad", "L_aa_new", "L_ad_new", "L_ad_new_adjust", "Nsnp","Nsnp_used", "MAF"], index = True, index_label = "SNP", sep = " ", na_rep = "Nan")
 
 
 

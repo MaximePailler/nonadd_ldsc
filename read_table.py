@@ -6,7 +6,7 @@ import numpy as np
 class Read_table :
 	'''Functions allowing the script to read the database and return the data in pd.DataFrame format'''
 
-	def read_tped(path, min_maf):
+	def read_tped(path, min_maf, type_pos):
 		'''
 		Read the file that are in .tped format
 		
@@ -16,6 +16,8 @@ class Read_table :
 			path to .tped file without the extension
 		min_maf : float
 			minimal value choosen by the user
+		type_pos : integer
+			equal to 1 if we use the Morgans, equal to 2 if we use the base-pair coordinates
 
 		Return :
 		---------------
@@ -42,7 +44,11 @@ class Read_table :
 				print(i)
 				i +=1
 				row = row.split(" ")
-				(chrom, snp, pos) = (row[0], row[1], float(row[2]))
+				(chrom, snp) = (row[0], row[1])
+				if type_pos == 1:
+					pos = float(row[2])
+				elif type_pos == 2:
+					pos = float(row[3])
 				row[-1] = row[-1].replace('\n', '')
 				gen = row[4:]
 				gen = [np.nan if i == 'N' else int(i) for i in gen]
@@ -68,7 +74,7 @@ class Read_table :
 
 
 
-	def read_bed(path):
+	def read_bed(path, type_pos):
 		'''
 		Read the .bed, .bim and .fam files
 		
@@ -76,6 +82,8 @@ class Read_table :
 		---------------
 		path : string
 			path to .bed, .bim. fam files without the extension. They need to be all in the same folder
+		type_pos : integer
+			equal to 1 if we use the Morgans, equal to 2 if we use the base-pair coordinates
 
 		Return :
 		---------------
@@ -91,7 +99,10 @@ class Read_table :
 		'''
 	
 		data = read_plink1_bin(path + ".bed", path + ".bim", path + ".fam", verbose=False)
-		pos = pd.Series(np.transpose(data.variant.cm.values), index = data.variant.snp.values)
+		if type_pos == 1:
+			pos = pd.Series(np.transpose(data.variant.cm.values), index = data.variant.snp.values)
+		elif type_pos == 2:
+			pos = pd.Series(np.transpose(data.variant.pos.values), index = data.variant.snp.values)
 		chrom = pd.Series(np.transpose(data.variant.chrom.values), index = data.variant.snp.values)
 		sample = data.sample.iid
 		gen_A = pd.DataFrame(data = np.transpose(data.values), index = data.variant.snp.values, columns = sample)
