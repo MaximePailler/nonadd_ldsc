@@ -39,4 +39,6 @@ Then, as mentioned above, you may have different formats for SNP's Id. So, in or
 
 Now the merging is possible between the GWAS files and the LD Scores ones. Use *merge.py* to do so.
 
-Finally, you will just have to concatenate these last files into one with *concat_ld_GWAS.py*
+You have now a .csv files called *all_data.csv* which contain all the information you will need then.
+
+regression.R is an R script which provide some plots about this *all_data.csv* file such as a correlation plot, boxplots and histograms. It also provide the summary of some regressions.
