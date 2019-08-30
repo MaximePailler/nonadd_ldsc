@@ -92,17 +92,13 @@ class Read_table :
 	
 		data = read_plink1_bin(path + ".bed", path + ".bim", path + ".fam", verbose=False)
 		print("read OK")
-		#print(gen_A.info(memory_usage='deep'))
 		gen_A = pd.DataFrame(data = np.transpose(data.values), index = data.variant.snp.values)
-		#gen_A = gen_A.apply(pd.to_numeric, downcast = 'unsigned')
 		print("gen_A ok")
 		if type_pos == 1:
 			pos = pd.Series(np.transpose(data.variant.cm.values), index = data.variant.snp.values)
 		elif type_pos == 2:
 			pos = pd.Series(np.transpose(data.variant.pos.values), index = data.variant.snp.values)
-		#pos = pos.apply(pd.to_numeric, downcast = 'float')
 		print("pos ok")
 		chrom = pd.Series(np.transpose(data.variant.chrom.values), index = data.variant.snp.values)
-		#chrom = chrom.apply(pd.to_numeric, downcast = 'unsigned')
 		print("chrom ok")
 		return(gen_A, pos, chrom)
