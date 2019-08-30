@@ -16,8 +16,10 @@ For example, if you want to use _myFile.tped_, just write _/path/myFile_.
 Then, you enter the minimal value of MAF you want for the SNPs inside your study.  
 Please, do not enter a string or a negative value. It will return an error message and you will have to enter another value.
 
-Finally, you will choose the size of the window for the calculation of the LD Score. The unit used here is the Morgans.  
-So, if you want to see the SNPs that are at 1 centiMorgan from the SNP you are studying, just enter '0.01'.
+Finally, you will choose the unit of distance you want to use for the window during the calculation of the LD Score.  
+You will have the choice between Morgans or base-pair coordinates. Choose among these 2 options by typing '1' or '2'.  
+The last input is about the length of the window. Once again, enter only a numeric and positive value.  
+So, if you want to see the SNPs that are at 1 centiMorgan from the SNP you are studying, just enter '1' to choose the Morgans unit and then '0.01'.
 
 Once the script is running, you will be able to follow its progress on the console.
 
